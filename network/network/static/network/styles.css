@@ -1,0 +1,34 @@
+body {
+	margin-left: 30% ;
+	margin-right: 30%;
+	background-image: url("paper.jpg");
+	background-size: cover;
+}
+.btn1 {
+	transition-duration: 1s;
+	border-radius: 10px;
+	
+}
+.btn1:hover {background-color: #1DA1F2;}
+textarea {
+	width: 100%;
+	border-radius: 10px;
+}
+table {
+	border-collapse: separate !important;
+	width: 100%;
+	border: 1px solid black;
+	border-radius: 10px;
+}
+
+tr {
+	transition-duration: 1s;
+}
+tr:hover {
+	background-color: lightblue;
+}
+
+td {
+	border: 1px solid black;
+	border-radius: 10px;
+}

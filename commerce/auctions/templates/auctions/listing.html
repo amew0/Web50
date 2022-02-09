@@ -1,0 +1,97 @@
+{% extends "auctions/layout.html" %}
+{% block body %}
+    <style type="text/css">
+        .t-tr{
+            border: 1px solid black
+        }
+    </style>
+    {% if isActive %}
+    	{% for listing in listings %}
+        <h2>Listings: {{ listing.title }}</h2>
+        <table>
+        <tr>
+            <td rowspan="4"><img src = "{{ listing.imageUrl }}" alt="image" width = "480" height="270"></td>
+            <td>
+                {% if isCreator %}
+                <a href="{% url 'close' listing.id %}"><strong>Close this auction.</strong></a>
+                <br>
+            {% endif %}
+            
+            {% if user.is_authenticated and not isCreator%}
+            	{% if listing not in UserWatchlist %}
+        			<a href = "/watchlist/{{ listing.id }}">Add to WatchList</a>
+        		{% else %}
+        			<a href="/{{ listing.id }}/remove/2">Remove from watchlist</a>
+        		{% endif %}
+        	   </td>
+               <tr>
+                <td>
+                <form action="/{{ listing.id }}" method = "post">
+                    {% csrf_token %}
+                    <input type = "number" name ="bid" placeholder="Bid" min = "{{ min }}" step="0.01">
+                    <input type="submit" name="submitB" value="Place Bid">
+                </form>
+            {% endif %}
+            </td>
+            <td>{{ message }}</td>
+        </tr>
+        <tr><td>
+        <div>
+            Starting Bid: {{ listing.startingBid }} AED
+            <br>
+            Current Price: {{ currentPrice }} AED
+        </div>
+        </td></tr>
+        <tr><td>
+        <h3>Details</h3>
+        <ul>
+        	<li>Category: {{ listing.category }}</li>
+            <li>Listed by: {{ listing.userL }}</li>
+        	<li>{{ listing.description }}</li>
+        	<li>{{ bidsCount }} bid(s) so far.</li>
+        </ul>
+        </td>
+        </tr>
+        </table>
+
+        {% if user.is_authenticated %}
+        <form action = "/{{ listing.id }}" method = "post">
+        	{% csrf_token %}
+        	{% for i in commentForm %}
+        		<label for={{ i.name }}><strong>{{ i.label }}:</strong></label>
+    		<br>
+    		{{ i }}
+    		<br>
+    		{% endfor %}
+    		<input type="submit" name="submitC" value="Comment">
+        </form>
+        {% endif %}
+        <strong>Comments:</strong>
+
+    	{% for comment in comments %}
+        	<table class = "t-tr">
+        		  <tr><td class = "t-tr"><strong>{{ comment.userC }}</strong>:</td>
+        		    <td>{{ comment.comment }}</td></tr>
+        	</table>
+        {% empty %}
+            <p>No one commented yet.</p>
+        {% endfor %}
+            {% if not user.is_authenticated %}
+            <a href = "{% url 'login' %}">Log in</a> to bid.
+            {% endif %}
+        {% endfor %}
+
+    {% else %}
+        <h4>Auction is closed.</h4>
+        {% if winnerBid != -1 and Emessage == None %}
+            {% if request.user.id == winnerId %}
+                <h5><strong>Congratulations, </strong>{{ winner }}.</h5>
+                <h5>You have won the auction for {{ winnerBid }} AED.</h5>
+            {% else %}
+                <h5>{{ winner }} has won the auction for {{ winnerBid }} AED.</h5>
+            {% endif %}
+        {% endif %}  
+        <h5>{{ Emessage }}</h5>      
+    {% endif %}
+
+{% endblock %}

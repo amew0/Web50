@@ -1,0 +1,19 @@
+{% extends "auctions/layout.html" %}
+
+{% block body %}
+    <h2>Watchlist</h2>
+    {% for listing in listings %}
+    	<table style = "border: 1px solid black">
+    		<tr>
+                 <td rowspan="5"><img src = "{{ listing.imageUrl }}" alt="image" width = "270" height="270"></td>
+                 <td><a href="/{{ listing.id }}/remove/1">Remove from watchlist</a></td>
+            </tr>
+    		<tr><td><strong>{{listing.category}}</strong></td></tr>
+			<tr><td><a href="/{{listing.id}}"><strong>{{ listing.title }}</strong></a></td></tr>
+			<tr><td>{{ listing.description }}</td></tr>
+			<tr><td> Current Price: {{ listing.startingBid }} aed</td></tr>
+    	</table>
+    {% empty %}
+    	<p>Nothing in your watchlist here. <a href="/">Click here</a> to go to all active listing.</p>
+    {% endfor %}
+{% endblock %}

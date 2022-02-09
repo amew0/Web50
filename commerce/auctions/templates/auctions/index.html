@@ -1,0 +1,35 @@
+{% extends "auctions/layout.html" %}
+
+{% block body %}
+    <style type="text/css">
+    table,  td 
+    {
+        border: 2px solid #f0f0f0;
+    }
+</style>
+    <h2>Active Listings</h2>
+    {% for listing in listings %}
+    <table style = "border: 2px solid black">
+    		<tr>
+                <td rowspan="4"><img src = "{{ listing.imageUrl }}" alt="image" width = "480" height="270"></td>
+    		    <td><strong>{{listing.category}}</strong></td>
+            </tr>
+			<tr>
+               
+                <td><a href="/{{listing.id}}"><strong>{{ listing.title }}</strong></a></td>
+            </tr>
+			<tr>
+               
+                <td>{{ listing.description }}</td>
+            </tr>
+			<tr>
+              
+                <td> Starting Price: {{ listing.startingBid }} AED.</td>
+            </tr>
+
+            <br>
+    </table>
+    {% empty %}
+        <h6>Sorry, no active listing. <a href = "{% url 'newListing' %}" >Click here</a> to add one.</h6>
+    {% endfor %}
+{% endblock %}

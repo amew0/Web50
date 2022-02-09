@@ -1,0 +1,19 @@
+{% extends "auctions/layout.html" %}
+
+{% block body %}
+    <h2>New Listings</h2>
+	<form action="/newListing" method="post">
+		{% csrf_token %}
+		{% for i in newListing %}
+		<label for={{ i.name }}>{{ i.label }}:</label>
+		<br>
+		{{ i }}
+		<br>
+		{% endfor %}
+		<!-- {{ newListing }} -->
+		<br>
+		<!-- <input type = "submit" value = "Upload"> -->
+		<input type = "image" src = "https://cdn.nohat.cc/thumb/f/720/comvecteezy424219.jpg" width = 40 height = 40 alt = "submit">
+	</form>
+    
+{% endblock %}

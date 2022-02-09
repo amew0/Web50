@@ -1,0 +1,32 @@
+textarea {
+    min-height: 400px;
+}
+
+.in-inbox {
+    border: 2px solid black;
+    transition-duration: 1s;
+}
+.in-inbox:hover {
+    background-color: lightblue;
+}
+
+.read {
+    background-color: lightgrey;
+}
+
+.not-read {
+    background-color: whitesmoke;
+}
+
+.td-inbox {
+    border: 1px solid black;
+}
+.table-inbox {
+    border-collapse: separate !important;
+    width: 100%;
+    border: 2px solid black;
+    border-radius: 10px;
+}
+.in-button {
+    width: 100%;
+}

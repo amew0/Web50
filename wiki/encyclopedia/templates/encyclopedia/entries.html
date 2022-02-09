@@ -1,0 +1,23 @@
+{% extends "encyclopedia/layout.html" %}
+
+{% block title %}
+    {{ name }}
+{% endblock %}
+
+{% block body %}
+	
+	{% if entry != "" %}
+		{% load md2 %}
+    	{{ entry | markdown }}
+   <!--  <a href="edit/">Edit Page</a> -->
+   		<form method="post" action="http://127.0.0.1:8000/wiki/{{ name }}/edit">
+   			{% csrf_token %}
+   			<!-- <button>Edit</button> -->
+   			<input name="Edit" type="submit" value="Edit">
+   			<input name="Delete" type="submit" value="Delete">
+   		</form>
+   	{% else %}
+   	{% load md2 %}
+   	{{ error | markdown }}
+   	{% endif %}
+{% endblock %}

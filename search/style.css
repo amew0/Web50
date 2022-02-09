@@ -1,0 +1,68 @@
+.google-search
+{
+    font-family: sans-serif;
+    padding: 20px;
+}
+.google-image img
+{
+    margin: 100px auto 10px;
+    width: 250px;
+    cursor: pointer;
+}
+.input-group
+{
+    margin: 13px auto 10px;
+    border-radius: 20px;
+    max-width: 550px;
+    background-color: #F5F5F5;
+}
+.form-control
+{
+    border-radius: 20px!important;
+    background-color: #ffffff!important;
+}
+.input-group-text
+{
+    background: transparent !important;
+    border: none!important;
+}
+.input-group
+{
+    color: #007BFF;
+    cursor: pointer;
+}
+.button {
+  background-color: #eeeeee;
+  border: none;
+  color: #5F6368;
+  padding: 5px;
+  text-align: left;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 14px;
+  font-family: arial,sans-serif;
+  margin: 4px 2px;
+  border-radius: 8px;
+}
+.button:focus
+{
+    outline-style: solid;
+    outline-color: #8080ff;
+}
+
+.data
+{
+    margin-left: 25px;
+    width: 250px;
+    float:left;
+}
+.shift
+{
+    margin-left:25px;
+    float:left;
+}
+
+input:focus {
+  outline-style: ridge;
+  outline-color: #8080ff;
+}

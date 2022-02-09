@@ -1,0 +1,103 @@
+{% extends "network/layout.html" %}
+{% load static %}
+{% block extra_head %}
+    <link href="{% static 'network/styles.css' %}" rel="stylesheet">
+{% endblock %}
+{% block script %}
+    <script src="{% static 'network/index.js' %}"></script>
+{% endblock %}
+{% block body %}
+    {% if user.is_authenticated %}
+        <h2>New Post</h2>
+        <form action = "/" method="post">
+            {% csrf_token %}
+            {% for field in NewPost %}
+            
+            {{ field }}
+            <br>
+            {% endfor %}
+            
+            <input class='btn1' type="submit" name="submit" value="Post">
+        </form>
+    {% endif %}
+    <br>
+    <table>
+    {% for post in page_obj %}
+    <tr class="tr"><td class="td">
+        {% if user.is_authenticated %}
+            <a href = "/profile/{{ post.userP.id }}">{{ post.userP }}</a><br>
+        {% else %}
+            {{ post.userP }}
+        {% endif %}
+        {{ post.content|linebreaks }}
+        <div>
+            {% if user.is_authenticated %}
+            <button  onClick="toLike({{ post.id }}, {{ post.likes }}, {{ user.id }})" id="{{ user.id }}-{{ post.id }}-L" style="display:inline; border:none; outline: none; background: none;"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-heart" viewBox="0 0 16 16">
+            <path d="m8 2.748-.717-.737C5.6.281 2.514.878 1.4 3.053c-.523 1.023-.641 2.5.314 4.385.92 1.815 2.834 3.989 6.286 6.357 3.452-2.368 5.365-4.542 6.286-6.357.955-1.886.838-3.362.314-4.385C13.486.878 10.4.28 8.717 2.01L8 2.748zM8 15C-7.333 4.868 3.279-3.04 7.824 1.143c.06.055.119.112.176.171a3.12 3.12 0 0 1 .176-.17C12.72-3.042 23.333 4.867 8 15z"/>
+            </svg></button>
+            <button  onClick="toUnlike({{ post.id }}, {{ post.likes }}, {{ user.id }})" id="{{ user.id }}-{{ post.id }}-U" style="display: none; border:none; outline: none; background: none;"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="red" class="bi bi-heart-fill" viewBox="0 0 16 16">
+            <path fill-rule="evenodd" d="M8 1.314C12.438-3.248 23.534 4.735 8 15-7.534 4.736 3.562-3.248 8 1.314z"/>
+            </svg></button>
+            <div id="{{ post.id }}-likes" style="display:inline;">{{ post.likes }}</div>
+            {% else %}
+            <button  onClick="toLike({{ post.id }}, {{ post.likes }}, -1)" id="{{ user.id }}-{{ post.id }}-L" style="display:inline; border:none; outline: none; background: none;"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-heart" viewBox="0 0 16 16">
+            <path d="m8 2.748-.717-.737C5.6.281 2.514.878 1.4 3.053c-.523 1.023-.641 2.5.314 4.385.92 1.815 2.834 3.989 6.286 6.357 3.452-2.368 5.365-4.542 6.286-6.357.955-1.886.838-3.362.314-4.385C13.486.878 10.4.28 8.717 2.01L8 2.748zM8 15C-7.333 4.868 3.279-3.04 7.824 1.143c.06.055.119.112.176.171a3.12 3.12 0 0 1 .176-.17C12.72-3.042 23.333 4.867 8 15z"/>
+            </svg></button>
+            <div id="{{ post.id }}-likes" style="display:inline;">{{ post.likes }}</div>
+            <div id="{{ post.id }}-forThem" style="display:inline;"></div>
+            {% endif %}
+        </div>
+        {{ post.dateNtime }}
+    </td></tr>
+    {% endfor %}
+    </table>
+    <br>
+
+    {% if page_obj.paginator.num_pages > 1 %}
+    <ul class="pagination">
+        {% if page_obj.has_previous %}
+            <li class="page-item">
+                <a class="page-link" href="?page=1">&laquo; First</a>
+            </li>
+            <li class="page-item">
+                <a class="page-link" href="?page={{ page_obj.previous_page_number }}">Previous</a>
+            </li>
+        {% else %}
+            <li class="page-item disabled">
+                <a class="page-link" href="#">&laquo; First</a>
+            </li>
+            <li class="page-item disabled">
+                <a class="page-link" href="#">Previous</a>
+            </li>
+        {% endif %}
+        <li class="page-item">
+            <p style="color: black" class="page-link">Page {{ page_obj.number }} of {{ page_obj.paginator.num_pages }}.</p>
+        </li>
+        {% if page_obj.has_next %}
+            <li class="page-item">
+                <a class="page-link" href="?page={{ page_obj.next_page_number }}">Next</a>
+            </li>
+            <li class="page-item">
+                <a class="page-link" href="?page={{ page_obj.paginator.num_pages }}">Last &raquo;</a>
+            </li>
+        {% else %}
+            <li class="page-item disabled">
+                <a class="page-link" href="#">Next</a>
+            </li>
+            <li class="page-item disabled">
+                <a class="page-link" href="#">Last &raquo;</a>
+            </li>
+        {% endif %}
+        <li title="Back to the latest post">
+            <button style=" display:inline; border:none; outline: none; background: none;">
+                <a href="#">
+                    <svg width="20" height="20"  id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 330 330" >
+                    <path id="XMLID_224_" d="M325.606,229.393l-150.004-150C172.79,76.58,168.974,75,164.996,75c-3.979,0-7.794,1.581-10.607,4.394 l-149.996,150c-5.858,5.858-5.858,15.355,0,21.213c5.857,5.857,15.355,5.858,21.213,0l139.39-139.393l139.397,139.393 C307.322,253.536,311.161,255,315,255c3.839,0,7.678-1.464,10.607-4.394C331.464,244.748,331.464,235.251,325.606,229.393z"/>
+                </a>
+            </button>
+        </li>
+    </ul>
+    {% endif %}
+{% endblock %} 
+
+

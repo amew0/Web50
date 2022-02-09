@@ -1,0 +1,25 @@
+{% extends "encyclopedia/layout.html" %}
+
+{% block title %}
+    CreateYourContent
+{% endblock %}
+
+{% block body %}
+	 <h1>Create a New Page</h1>
+	 <h4>{{ error }}</h4>
+	 {% if editmode %}
+	 <form action="http://127.0.0.1:8000/wiki/{{ name }}/{{ mode }}" method="post">
+	 	{% csrf_token %}
+	 	{{ new }}
+	 	<br>
+	 	<input type="submit" value="Save">
+	 </form>
+	 {% else %}
+	 <form action="http://127.0.0.1:8000/wiki/new" method="post">
+	 	{% csrf_token %}
+	 	{{ new }}
+	 	<br>
+	 	<input type="submit" value="Save">
+	 </form>
+	 {% endif %}
+{% endblock %}
