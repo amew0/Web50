@@ -3,7 +3,7 @@
 import os
 import sys
 
-
+# a new comment is added here.
 def main():
     os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'project4.settings')
     try:
