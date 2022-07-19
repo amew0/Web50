@@ -1,0 +1,39 @@
+{% extends "hotel/layout.html" %}
+{% load static %}
+{% block title %}Your bookings{% endblock %}
+{% block script %}
+{% endblock %}
+{% block body %}
+{% if bExist %}
+<h3>Your booking(s)</h3>
+	<table border="1px" id="bookings-table">
+		<tr>
+			<th>Room Type</th>			
+			<th>From</th>			
+			<th>To</th>			
+			<th>Method</th>			
+			<th>Breakfast</th>			
+			<th>Booked time</th>			
+		</tr>
+	<tbody class="bookings-tbody" >
+		{% for b in bookings %}
+		<tr>
+			<td>{{b.roomB.roomType}}</td>
+			<td>{{b.fromB}}</td>
+			<td>{{b.toB}}</td>
+			<td>{{b.paidVia}}</td>
+			{% if b.bfIncluded %}
+			<td>&#10003;</td>
+			{% else %}
+			<td>&#10005;</td>
+			{% endif %}
+			<td>{{b.bookedTime}}</td>
+		</tr>
+		{% endfor %}		
+		
+	</tbody>
+	</table>
+{% else %}
+	<h3>You don't have any bookings.</h3>
+{%endif%}
+{% endblock %}

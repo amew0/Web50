@@ -1,0 +1,59 @@
+{% load static %}
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+  <script src="{% static 'hotel/layout.js' %}"></script>
+  {% block styles %}
+  <link rel="stylesheet" href="{% static 'hotel/styles.css' %}?1422585377">
+  {% endblock %}
+	<title>{% block title %}Tsilal hotel{% endblock %}</title>
+	{% block script %}
+  {% endblock %}
+</head>
+<body>
+	<nav class="navbar navbar-expand-lg navbar-dark bg-primary" id="header">
+  <div class="container-fluid" style="position:relative;  width: 20%;">
+    
+    <a class="navbar-brand" href="/"><img src="{% static 'hotel/tsilal-logo.png' %}" width="50" height="50">Tsilal</a>
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarColor01" aria-controls="navbarColor01" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+
+    <div class="collapse navbar-collapse" id="navbarColor01">
+      <ul class="navbar-nav me-auto">
+        {% if user.is_authenticated %}
+        <li class="nav-item">
+          <a class="nav-link" href="/reservations/{{request.user.id}}">Reservation</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="/bookings/{{request.user.id}}">Bookings</a>
+        </li>
+        <li class="nav-item dropdown">
+          <a class="nav-link dropdown-toggle" data-bs-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">{{ user.username}}</a>
+          <div class="dropdown-menu">
+            <a class="dropdown-item" href="{% url 'logout' %}">Logout</a>
+          </div>
+        </li>
+        {% else %}
+        <li class="nav-item">
+          <a class="nav-link" href="{% url 'login' %}">Login</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="{% url 'register' %}">Register</a>
+        </li>
+        {% endif %}
+        </ul>
+    </div>
+  </div>
+</nav>
+
+<div class="inside-body">
+  {% block body %}
+	{% endblock %}
+</div>
+	
+</body>
+</html>

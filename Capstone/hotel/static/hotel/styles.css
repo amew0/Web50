@@ -1,0 +1,95 @@
+body {
+	background-color: silver;
+	background: url('hotel1.jpg') no-repeat fixed;
+	background-size: 100%;
+	font-family: "papyrus","algeria","georgia";
+	color: rgb(250, 235, 215);
+}
+#header {
+	background-color: rgb(48,47,78) !important;
+}
+.navbar {
+	position: sticky;
+   top: 0;
+   z-index: 100;
+}
+.dropdown:hover .dropdown-menu {
+	display: block;
+}
+.inside-body {
+	margin: 10% 0% 0% 42.5%;
+}
+input[type=date] {
+	background-color: lightgrey;
+}
+input[type=date]:hover {
+	background-color: aliceblue;
+}
+label {
+	display:inline;
+	font-weight:bold;
+	color: aliceblue;
+}
+.form-control{
+	width: 200px;
+}
+input[type=submit], .btn {
+	color: white;
+	border-radius:  12.5%;
+	padding:  4px;
+	border: ridge;
+	background-color: transparent;
+	transition-duration: 0.3s;
+		
+}
+input[type=submit]:hover,button:hover {box-shadow: 0 12px 16px 0 rgba(0,0,0,0.24),0 17px 50px 0 rgba(0,0,0,0.19);}
+span{
+	color: azure
+}
+th, td{
+	text-align: center;
+	transition-duration: 0.2s;	
+}
+th, td:hover{
+	box-shadow: 0 12px 16px 0 rgba(0, 0, 0, 0.24),0 17px 50px 0 rgba(0,0,0,0.19);
+}
+#bookings-table {
+	margin: 0% 0% 0% -20%;
+}
+a:link, a:visited {
+	color: black;
+	background-color: transparent;
+	text-decoration: none;
+}
+a:hover {
+	color: blue;
+	background-color: transparent;
+	text-decoration: underline;
+}
+#total-price {
+	color: white;
+	font-weight: bold;
+}
+@media only screen and (max-width: 600px) {
+	body {
+		background: url('hotel1_m1.jpg') no-repeat fixed;
+		background-size: 100%;
+		/*  */
+	}
+	.inside-body {
+		margin: 10% 5% 0% 5%;
+	}
+	h3 {
+		text-align: center;
+	}
+	#to-div {
+		display: block !important;
+	}
+	#toB {
+		margin-left: 3.5%;
+	}
+	
+	#bookings-table {
+		margin: auto;
+	}
+}

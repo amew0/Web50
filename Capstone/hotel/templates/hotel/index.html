@@ -1,0 +1,71 @@
+{% extends "hotel/layout.html" %}
+{% load static %}
+{% block styles %}<link rel="stylesheet" href="{% static 'hotel/styles.css' %}">{% endblock %}
+{% block title %}Tsial hotel{% endblock %}
+{% block script %}
+	 <script type="text/javascript" src="{% static 'hotel/index.js' %}"></script>
+{% endblock %}
+{% block body %}
+	<div id="index_">
+	{% if user.is_authenticated %}
+	<form action="/" method="POST">
+		{% csrf_token %}		
+		{% if searchDisp == "none" %}
+		<label>From: </label><input disabled type="date" value='{{ fieldFromB }}'>
+		{% else %}
+		<label>From: </label><input onClick="updateFromB()" id="fromB" type="date" name="fromB" min="{{ today }}" value='{{ fieldFromB }}' required>
+		{% endif %}
+
+		<div id="to-div" style="display:inline">
+			<label>To: </label><input disabled onClick="updateToB()" id="toB" type="date" name="toB" value='{{ fieldToB }}' required>
+		</div>
+		<input id="btn-FT" disabled onclick="verifyFnT()" type="submit" name="search" value="Search" style="display: {{ searchDisp }}">
+	</form>
+	
+	<div style="display: {{ display }} ">
+		<form action="/" method="POST">
+			{% csrf_token %}
+			<br>
+			<label>Room Type:</label>
+			<select id="select-typeRoom" name="typeRoom" onchange="calculatePrice()" required>
+				<option value="" disabled selected>Select room Type</option>
+				{% for typeRoom in typeRoomsAvailable %}
+				<option value="{{ typeRoom }}">{{ typeRoom }}</option>
+				{% endfor %}
+			</select><br>
+			<div>
+				<input onchange="calculatePrice()" id="checkbox-1" type="checkbox" name="bfIsIncluded" value="1">
+				<span>Breakfast (add-on)</span>
+			</div>
+			
+			<input id="from-saved" type="hidden" name="h-from" value='{{ fieldFromB }}' >
+			<input id="to-saved"  type="hidden" name="h-to" value='{{ fieldToB }}'>
+			<br>
+			<span>Total price: </span>AED <div id="total-price" style="display:inline">0.00</div>
+			<select id="payment-method" name="payment-method" style="display:none">
+				<option value="" disabled selected required>Payment Method</option>
+				{% for method in pMethod %}
+				<option value="{{ method }}">{{ method }}</option>
+				{% endfor %}
+				
+			</select>
+			<br><br>
+			{% if rExist %}
+			<span>You already have one reservation.</span><br>
+			<span>Click <a href="/reservations/{{ user.id }}">here</a> to manage that.</span>
+			{% else %}
+			<input type="submit" name="reserve" value="Reserve">
+			{% endif %}
+			<br>
+			<input id="pay-submit"  type="submit" name="pay" value="Pay" style="display:none">
+		</form>
+		<button class="btn" id="book-button" onclick="enablePaymentMethod()" >Book</button>
+		 
+	</div>
+	{% else %}
+	<h5>
+		You need to <a href="/login">login</a> or <a href="/register">register</a> to book a room.
+	</h5>
+	{% endif %}
+	</div>
+{% endblock %}

@@ -1,0 +1,67 @@
+{% extends "hotel/layout.html" %}
+{% load static %}
+{% block title %}Your Reservation{% endblock %}
+{% block script %}
+	 <script src="{% static 'hotel/reservation.js' %}"></script>
+{% endblock %}
+{% block body %}
+	<p id="user" data-id="{{ request.user.id }}" style="display:none"></p>
+	<div id="doesrExist">
+	{% if rExist %}
+		<h2>Manage reservation here</h2>
+		<table border="1px">
+			<tr>
+				<th>Reserved Time</th>
+				<td id="reservedTime" data-id="{{ reservations.id }}">{{ reservations.reservedTime }}</td>
+			</tr>
+			<tr>
+				<th>Check in date</th>
+				<td id="check-in-disp" data-id="{{reservations.fromR}}">{{reservations.fromR}}</td>
+			</tr>
+			<tr>
+				<th>Check out date</th>
+				<td id="check-out-disp" data-id="{{reservations.toR}}">{{reservations.toR}}</td>
+			</tr>
+			<tr>
+				<th>Room Type</th>
+				<td>{{ reservations.roomR.roomType.roomTypeP }}</td>
+			</tr>
+			<tr>
+				<th>Price in AED</th>
+				<td id="priceToBePaid" data-bf="{{reservations.bfIncluded}}" data-id="{{reservations.roomR.roomType.roomPrice}}"></td>
+			</tr>
+		</table>
+		<br>
+		<h5>Hurry up! Your reservation is expiring in: </h5>
+		<p id="timer-{{reservations.id}}"></p>
+		<form action="/reservations/{{request.user.id}}" method="POST">
+			{% csrf_token %}
+			<input type="hidden" name="rID" value="{{ reservations.id }}">
+			<input type="hidden" name="roomID" value="{{ reservations.roomR.id }}">
+			<input id="cancel-r" type="submit" name="cancel-r" value="Cancel">
+		</form>
+		<form action="/reservations/{{request.user.id}}" method="POST" style="display:none" id="pay-form">
+			{% csrf_token %}
+			<input type="hidden" name="bfIsIncluded" value="{{reservations.bfIncluded}}">
+			<input type="hidden" name="typeRoom" value="{{reservations.roomR.roomType}}">
+			<input type="hidden" name="h-from" value="{{fromRR}}">
+			<input type="hidden" name="h-to" value="{{toRR}}">
+			<input type="hidden" name="rID" value="{{ reservations.id }}">
+			<select id="payment-method-r" name="payment-method" required>
+				<option disabled selected>Payment Method</option>
+				{% for method in pMethod %}
+				<option value="{{ method }}">{{ method }}</option>
+				{% endfor %}
+			</select>
+			<input type="submit" name="pay-r" value="Pay">
+		</form>
+		<input type="submit" name="book-r" value="Book" id="book-button" onclick="enablePaymentMethod()">
+	{% else %}
+		<h3>You don't have any reservation.</h3>
+		<p>Click <a style="color:white" href="/">here</a> to go back.</p>
+	{% endif%}	
+	</div>
+	<h3 class="noReservation" style="display: none">You don't have any reservation.</h3>
+	<p class="noReservation" style="display: none">Click <a style="color:white" href="/">here</a> to go back.</p>
+
+{% endblock %}
